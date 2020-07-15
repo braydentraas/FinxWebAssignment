@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+
+	<link rel="stylesheet" type="text/css" href="./styles.css" />
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+	<script src="scripts/PaymentFrequencies.js"></script>
+	<script src="scripts/Products.js"></script>
+	<script src="scripts/Deal.js"></script>
+	<script src="scripts/dashboard.js"></script>
+
+</head>
+<body style="">
+<div class="header">
+	<img src="images/logo.png" />
+</div>
+<div class="dashboard" style="height: 100%">
+	<div class="status-bar light-gray" style="position: relative">
+		<table class="current-status" style="width: calc(100% - 200px)">
+			<tr>
+				<td>
+					Date: August 17 - 2020
+				</td>
+				<td>
+					Customer: Brayden Traas
+				</td>
+				<td>
+					Credit Specialist: Ray Rieger
+				</td>
+			</tr>
+		</table>
+		<table style="border-collapse: collapse; position: absolute; right: 0; top: 0; margin-top: -65px;" class="">
+			<tr>
+				<td colspan="3">
+					<div class="option-select-button light-gray send-button" style="color: forestgreen; float: right;" onclick="sendDeal()">
+						<img src="images/send.png" />
+						Send
+					</div>
+				</td>
+			</tr>
+
+			<tr class="light-gray">
+				<td class="option-select-button selected" style="color: orangered" data-option="1" onclick="toggleDeal(this)">
+					<img src="images/option_one.png" />
+					One
+				</td>
+				<td class="option-select-button" style="color: gray" data-option="quote" onclick="toggleDeal(this)">
+					<img src="images/option_quote.png" />
+					Quote
+				</td>
+				<td class="option-select-button" style="color: dodgerblue" data-option="2" onclick="toggleDeal(this)">
+					<img src="images/option_two.png" />
+					Two
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+
+<div class="dashboard-panel" style="width: 600px; margin-bottom: 40px; ">
+	<div class="dashboard-widget" style="display: block; padding: 0;">
+		<div class="dashboard-widget-content">
+			<h2 class="widget-title">Vehicle Details</h2>
+			<ul class="horizontal-details-list" style="height: 70px">
+				<li>
+					<div class="horizontal-detail">
+						<p class="mini-title">Year</p>
+						<p class="mini-value">2017</p>
+					</div>
+
+				</li>
+				<li>
+					<div class="horizontal-detail">
+						<p class="mini-title">Make</p>
+						<p class="mini-value">Honda</p>
+					</div>
+
+				</li>
+				<li>
+					<div class="horizontal-detail">
+						<p class="mini-title">Model</p>
+						<p class="mini-value">Civic</p>
+					</div>
+
+				</li>
+				<li>
+					<div class="horizontal-detail">
+						<p class="mini-title">Odometer</p>
+						<p class="mini-value">156,685 KM</p>
+					</div>
+
+				</li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="dashboard-widget" style="margin-top: 20px; padding: 0" >
+		<h2 class="widget-title">Beacon Score</h2>
+		<img src="images/dial.png" />
+		<h1 style="color: lawngreen">745 - Good</h1>
+	</div>
+
+	<div class="dashboard-widget" style="height: 100%; margin-top: 20px; margin-left: 20px; max-width: 295px; padding-top: 0;">
+		<h2 class="widget-title">Loan Details</h2>
+
+		<table class="loan-modifiers-table" style="text-align: left; font-size: 0.8em">
+			<tr>
+				<td>
+					Terms
+				</td>
+				<td>
+					Amortization
+				</td>
+				<td>
+				Payment Frequency
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<select id="loan_term" onchange="setTerm(this.value)">
+						<option value="48">48</option>
+						<option value="60">60</option>
+						<option value="72">72</option>
+					</select>
+				</td>
+				<td>
+					<select id="loan_amortization" onchange="setAmortization(this.value)">
+						<option>48</option>
+					</select>
+				</td>
+				<td>
+					<select id="payment_frequency" onchange="setFrequency(this.value)">
+						<option value="1">Monthly</option>
+						<option value="2">Bi-weekly</option>
+					</select>
+				</td>
+			</tr>
+
+		</table>
+<!--
+{*		<label for="loan_term">*}
+{*			Term*}
+{*			<select id="loan_term">*}
+{*				<option>48</option>*}
+{*			</select>*}
+{*		</label>*}
+{*		<label for="loan_amortization">*}
+{*			Amortization*}
+{*			<select id="loan_amortization">*}
+{*				<option>48</option>*}
+{*			</select>*}
+{*		</label>*}
+{*		<label for="payment_frequency">*}
+{*			Payment Frequency*}
+{*			<select id="payment_frequency">*}
+{*				<option>Monthly</option>*}
+{*			</select>*}
+{*		</label>*}
+-->
+
+		<br>
+		<table class="loan-lines" style="width: 100%">
+			<tr><td>Balloon:</td><td>$0.00</td></tr>
+			<tr><td>Cost of borrowing:</td><td>$2,914.60</td></tr>
+			<tr><td>Interest Saving:</td><td style="color: lawngreen">$0.00</td></tr>
+			<tr><td>Break Even Point:</td><td>0 Months</td></tr>
+		</table>
+
+	</div>
+
+	<div class="dashboard-widget" style="display: block; padding: 0; margin-top: 20px;">
+		<div class="dashboard-widget-content">
+			<h2 class="widget-title">Product Grids</h2>
+			<div class="product-grids-wrapper" style="overflow-x: scroll">
+				<ul class="horizontal-product-list" style="width: 1380px; height: 70px; float: left;">
+					<li class="horizontal-product horizontal-product-to-clone" onclick="toggleProduct(this)">
+						<div class="grid-mini-module">
+							Default text
+						</div>
+						<!--					<img src="grid-icon.png" class="grid-icon"> -->
+						<table class="grid-icon-table">
+							<tr><td></td><td></td><td></td></tr>
+							<tr><td></td><td></td><td></td></tr>
+							<tr><td></td><td></td><td></td></tr>
+						</table>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+
+
+<div class="dashboard-panel" style="width: 700px; position: relative; border-top-left-radius: 0; margin-top: 57px;">
+
+	<div class="tab" style="position: absolute; top: -36px; left: 0;">
+		<button class="tablinks active" onclick="showTab(this, $('.tab-options'))">Options</button>
+		<button class="tablinks" onclick="showTab(this, $('.tab-products'))">Products</button>
+		<button class="tablinks" onclick="showTab(this, $('.tab-brochures'))">Brochures</button>
+	</div>
+
+	<div class="tab-panel tab-options flex-horizontal">
+
+		<div class="option-column option-1 flex-vertical" style="width: 100%">
+			<div class="dashboard-widget dashboard-widget-light" style="display: block">
+				<div class="widget-header"><h2 style="margin: 5px;">Option One</h2></div>
+				<h2 class="widget-title">Finx Capital</h2>
+				<table class="option-widget-table">
+					<tr>
+						<td>Term</td><td class="term-value">48</td>
+					</tr>
+					<tr>
+						<td>Interest</td><td class="interest-value">6.79%</td>
+					</tr>
+					<tr>
+						<td>Payment</td><td class="payment-value">$480.20</td>
+					</tr>
+				</table>
+			</div>
+
+			<div class="dashboard-widget dashboard-widget-light" style="display: block; height: 150px; margin-top: 20px;">
+				<div class="widget-header"><h3 style="margin: 5px;">Included</h3></div>
+				<ul class="included-list">
+				</ul>
+			</div>
+
+			<div class="dashboard-widget dashboard-widget-light" style="display: block; height: 150px; margin-top: 20px;">
+				<div class="widget-header"><h3 style="margin: 5px;">Lender Notes</h3></div>
+			</div>
+		</div>
+
+		<div class="option-column option-quote" style="display: none; width: 100%">
+			<div class="dashboard-widget dashboard-widget-light" style="display: block">
+				<div class="widget-header"><h2 style="margin: 5px;">Quote</h2></div>
+				<h2 class="widget-title">Finx Capital</h2>
+				<table class="option-widget-table">
+					<tr>
+						<td>Term</td><td class="term-value">60</td>
+					</tr>
+					<tr>
+						<td>Interest</td><td class="interest-value">5.29%</td>
+					</tr>
+					<tr>
+						<td>Payment</td><td class="payment-value">$390.06</td>
+					</tr>
+				</table>
+			</div>
+			<div class="dashboard-widget dashboard-widget-light" style="display: block; height: 150px; margin-top: 20px;">
+				<div class="widget-header"><h3 style="margin: 5px;">Included</h3></div>
+				<ul class="included-list" style="">
+
+				</ul>
+			</div>
+
+			<div class="dashboard-widget dashboard-widget-light" style="display: block; height: 150px; margin-top: 20px;">
+				<div class="widget-header"><h3 style="margin: 5px;">Lender Notes</h3></div>
+			</div>
+		</div>
+
+		<div class="option-column option-2" style="display: none; width: 100%">
+			<div class="dashboard-widget dashboard-widget-light" style="display: block">
+				<div class="widget-header"><h2 style="margin: 5px;">Option Two</h2></div>
+				<h2 class="widget-title">Finx Capital</h2>
+				<table class="option-widget-table">
+					<tr>
+						<td>Term</td><td class="term-value">72</td>
+					</tr>
+					<tr>
+						<td>Interest</td><td class="interest-value">1.86%</td>
+					</tr>
+					<tr>
+						<td>Payment</td><td class="payment-value">$388.64</td>
+					</tr>
+				</table>
+			</div>
+			<div class="dashboard-widget dashboard-widget-light" style="display: block; height: 150px; margin-top: 20px;">
+				<div class="widget-header">
+					<h3 style="margin: 5px;">Included</h3>
+				</div>
+				<ul class="included-list" >
+					<li>Warranty</li>
+					<li>Tire & Rim</li>
+					<li>KeyFob</li>
+				</ul>
+			</div>
+
+			<div class="dashboard-widget dashboard-widget-light" style="display: block; height: 150px; margin-top: 20px;">
+				<div class="widget-header"><h3 style="margin: 5px;">Lender Notes</h3></div>
+			</div>
+		</div>
+	</div>
+
+	<!-- watch out, this is set programatically -->
+	<div class="tab-panel tab-products flex-horizontal" style="display: none">
+		<div class="product-column buy-down-points flex-vertical" style="width: 100%">
+			<div class="dashboard-widget dashboard-widget-light" style="display: block">
+				<div class="widget-header"><h2 style="margin: 5px;">Buy Down Points</h2></div>
+				<div class="product-column-table-wrapper">
+					<table class="product-column-table">
+					</table>
+				</div>
+			</div>
+
+		</div>
+
+		<div class="product-column products flex-vertical" style="width: 100%; margin-right: ">
+			<div class="dashboard-widget dashboard-widget-light" style="display: block">
+				<div class="widget-header"><h2 style="margin: 5px;">Products</h2></div>
+				<div class="product-column-table-wrapper">
+					<table class="product-column-table">
+					</table>
+				</div>
+
+			</div>
+
+		</div>
+
+		<div class="product-column rates_payment flex-vertical" style="width: 100%">
+			<div class="dashboard-widget dashboard-widget-light" style="display: block">
+				<div class="widget-header"><h2 style="margin: 5px;">Rates & Payment</h2></div>
+				<div class="product-column-table-wrapper">
+					<table class="product-column-table">
+						<tr>
+							<td><div style="" class="round-cell">1.86%    5388.64</div></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+
+		</div>
+
+
+	</div>
+	<div class="tab-panel tab-brochures" style="display: none;">
+		<div class="dashboard-widget dashboard-widget-light brochure-node-to-clone brochure-node" onclick="openBrochure(this)">
+			<div class="widget-header"><h3 style="margin: 5px;" class="brochure-title">Default title</h3></div>
+			<img src="images/brochure.png" style="width: 100px; margin: 0 auto; margin-bottom: 15px; position: absolute; bottom: 0; left: calc(50% - 48px);" />
+		</div>
+
+
+	</div>
+</div>
+
+
+
+<div id="overlay" style="display: none">
+</div>
+
+<div id="incoming_connection" style="display: none;">
+		<img src="images/profile.png" style="width: 150px; margin-top: 50px;" />
+		<p>Credit Specialist</p>
+		<h4 style="margin-top: 10px;">Ray Rieger</h4>
+		<img src="images/accept_call.png" class="call-button" onclick="acceptCall()">
+		<img src="images/deny_call.png" class="call-button" onclick="denyCall()">
+</div>
+
+<div id="brochure_dialog" style="display: none">
+	<div class="widget-header" style="padding: 7px">
+		<h3 style="margin: 3px; display: inline-block" class="brochure-title">Default title</h3>
+		<div style="float: right; font-size: 1.5em; cursor: pointer;" onclick="closeBrochure()">X</div>
+	</div>
+	<div style="margin: 5px; background: #333">
+		<img src="images/brochure.png" style="margin: 20px; height: 345px" />
+	</div>
+</div>
+
+</body>
+</html>
